@@ -1,0 +1,7 @@
+设置为相对位置(windows_width - 120, 10)，使其始终在屏幕右上角
+def draw_score(screen,score):
+    font = pygame.font.Font('ttf\myfont.ttf', 30)
+    scoreSurf = font.render('得分: %s' % score, True, white)
+    scoreRect = scoreSurf.get_rect()
+    scoreRect.topleft = (windows_width - 120, 10)
+    screen.blit(scoreSurf, scoreRect)

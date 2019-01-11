@@ -1,0 +1,20 @@
+结束界面
+代码：
+def show_gameover_info(screen):
+    font = pygame.font.Font('ttf\myfont.ttf', 30)
+    tip = font.render('按Q或者ESC退出游戏, 按任意键重新开始游戏~', True, (65, 105, 225))
+    gamestart = pygame.image.load('img\gameover.png')
+    screen.fill(yellow)
+    screen.blit(gamestart, (150,0))
+    screen.blit(tip, (120, 450))
+    pygame.display.update()
+
+    while True:  #键盘监听事件
+        for event in pygame.event.get():  # event handling loop
+            if event.type == QUIT:
+                terminate()     #终止程序
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE or event.key == K_q:  #终止程序
+                    terminate() #终止程序
+                elif event.key != K_SPACE:
+                    return #结束此函数, 重新开始游戏

@@ -1,0 +1,21 @@
+开始界面是游戏是门面，需要美观大方、生动有趣。
+代码：
+def show_start_info(screen):
+    font = pygame.font.Font('ttf\myfont.ttf', 40)
+    font2 = pygame.font.Font('ttf\myfont.ttf', 30)
+    tip = font.render('按任意键开始游戏~~~', True, (65, 105, 225))
+    tip2 = font2.render('游戏中，按SPACE加速，按P键暂停', True, (65, 105, 225))
+    gamestart = pygame.image.load('img\gamestart.jpg')
+    screen.blit(gamestart, (140, 80))
+    screen.blit(tip, (240, 420))
+    screen.blit(tip2, (180, 480))
+    pygame.display.update()
+    while True:  #键盘监听事件
+        for event in pygame.event.get():  # event handling loop
+            if event.type == QUIT:
+                terminate()     #终止程序
+            elif event.type == KEYDOWN:
+                if (event.key == K_ESCAPE):  #终止程序
+                    terminate() #终止程序
+                else:
+                    return #结束此函数, 开始游戏

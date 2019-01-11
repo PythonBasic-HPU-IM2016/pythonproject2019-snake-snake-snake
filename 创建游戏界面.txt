@@ -1,0 +1,3 @@
+ДњТыЃК
+screen = pygame.display.set_mode((windows_width, windows_height)) 
+    screen.fill(white)
