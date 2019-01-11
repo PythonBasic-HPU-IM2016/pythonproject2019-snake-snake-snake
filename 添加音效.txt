@@ -1,0 +1,21 @@
+利用pygame里的mixer类来实现添加音效
+在main函数中先进行对mixer的初始化以及各种音效的加载并设置音量
+代码：
+pygame.mixer.init()#初始化混音器模块的加载和播放
+    pygame.mixer.music.load("wav\snake_bg.wav")
+    pygame.mixer.music.set_volume(0.2)#设置音量
+    dieSound = pygame.mixer.Sound("wav\snake_die_01.wav")
+    dieSound.set_volume(0.2)#设置音量
+    eatFoodSound = pygame.mixer.Sound("wav\snake_eat_food_01.wav")
+    eatFoodSound.set_volume(0.2)
+    eatNoFood = pygame.mixer.Sound("wav\snake_eat_nofood.wav")
+    eatNoFood.set_volume(0.2)
+一、背景音乐
+由于背景音乐是直接加载到mixer.music里了，所以，类似于全局变量，可以直接使用，在游戏运行的时候这个对象直接调用play()方法即可
+代码：(在running_game函数中)
+pygame.mixer.music.play() #开始播放
+二、吃东西的音效
+其实可以在你需要用的函数里再加载这个音乐，这样子就不用传参，但是，我乐意提前加载，所以，我就放到main函数里加载提前加载了，这样需要将你生成的这个变量，一直传参，传到你要调用play()的函数里。由于这个是吃东西的音效，所以，只有当蛇吃到水果的时侯才会发出声音，所以代码放到了蛇吃水果的判定函数中。
+代码:(在snake_is_eat_food函数中)
+eatFoodSound.play()
+三、其他音效：上面吃东西的音效添加方法一样，就不赘述了。
