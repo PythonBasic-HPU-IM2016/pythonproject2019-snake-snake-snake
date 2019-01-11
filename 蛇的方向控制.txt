@@ -1,0 +1,29 @@
+目的：蛇能根据玩家按下按键改变方向
+实现方案：键盘按键事件注册，根据按键改变参数direction的值，然后根据direction设置新的头的生成位置，由此改变方向
+核心代码：
+1、注册按键，控制direction的值
+for event in pygame.event.get():
+	if event.type == QUIT:
+		terminate()
+	elif event.type == KEYDOWN:
+		if (event.key == K_LEFT or event.key == K_a) and direction != RIGHT:
+			direction = LEFT
+		elif (event.key == K_RIGHT or event.key == K_d) and direction != LEFT:
+			direction = RIGHT
+		elif (event.key == K_UP or event.key == K_w) and direction != DOWN:
+			direction = UP
+		elif (event.key == K_DOWN or event.key == K_s) and direction != UP:
+			direction = DOWN
+		elif event.key == K_ESCAPE:
+			terminate()
+2、根据direction选择新的蛇头的生成位置
+def move_snake(direction, snake_coords):
+    if direction == UP:
+        newHead = {'x': snake_coords[HEAD]['x'], 'y': snake_coords[HEAD]['y'] - 1}
+    elif direction == DOWN:
+        newHead = {'x': snake_coords[HEAD]['x'], 'y': snake_coords[HEAD]['y'] + 1}
+    elif direction == LEFT:
+        newHead = {'x': snake_coords[HEAD]['x'] - 1, 'y': snake_coords[HEAD]['y']}
+    elif direction == RIGHT:
+        newHead = {'x': snake_coords[HEAD]['x'] + 1, 'y': snake_coords[HEAD]['y']}
+    snake_coords.insert(0, newHead)
