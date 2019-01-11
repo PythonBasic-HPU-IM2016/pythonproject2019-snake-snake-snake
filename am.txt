@@ -1,0 +1,130 @@
+while True:
+        event = pygame.event.poll()
+        if poison:
+            if event.type == QUIT:
+                terminate()
+            elif event.type == KEYDOWN:
+                if (event.key == K_LEFT or event.key == K_a) and direction != LEFT:
+                    direction = RIGHT
+                elif (event.key == K_RIGHT or event.key == K_d) and direction != RIGHT:
+                    direction = LEFT
+                elif (event.key == K_UP or event.key == K_w) and direction != UP:
+                    direction = DOWN
+                elif (event.key == K_DOWN or event.key == K_s) and direction != DOWN:
+                    direction = UP
+                elif event.key == K_ESCAPE:
+                    terminate()
+                elif event.key == K_p:
+                    pause_flag = 0
+                    while True:
+                        for event in pygame.event.get():
+
+                            if event.type == QUIT:
+                                pygame.quit()
+                                exit()
+                            if event.type == KEYDOWN:
+                                if event.key == K_SPACE:
+                                    pause_flag = 1
+                        if pause_flag == 1:
+                            pygame.mixer.music.unpause()
+                            break
+                        pygame.mixer.music.pause()             
+                elif event.key == K_SPACE:
+                    carry = not carry
+        else:
+            if event.type == QUIT:
+                terminate()
+            elif event.type == KEYDOWN:
+                if (event.key == K_LEFT or event.key == K_a) and direction != RIGHT:
+                    direction = LEFT
+                elif (event.key == K_RIGHT or event.key == K_d) and direction != LEFT:
+                    direction = RIGHT
+                elif (event.key == K_UP or event.key == K_w) and direction != DOWN:
+                    direction = UP
+                elif (event.key == K_DOWN or event.key == K_s) and direction != UP:
+                    direction = DOWN
+                elif event.key == K_ESCAPE:
+                    terminate()
+                elif event.key == K_p:
+                    pause_flag = 0
+                    while True:
+                        for event in pygame.event.get():
+
+                            if event.type == QUIT:
+                                pygame.quit()
+                                exit()
+                            if event.type == KEYDOWN:
+                                if event.key == K_SPACE:
+                                    pause_flag = 1
+                        if pause_flag == 1:
+                            pygame.mixer.music.unpause()
+                            break
+                        pygame.mixer.music.pause()             
+                elif event.key == K_SPACE:
+                    carry = not carry
+                    
+        move_snake(direction, snake_coords) #移动蛇
+        speed = snake_speed_change(carry,snake_speed,snake_coords)#速度设置
+        ret = snake_is_alive(snake_coords) #蛇是否还活着
+        if not ret:#蛇跪了.
+            dieSound.play()
+            break  #游戏结束
+        
+        snake_is_eat_food(snake_coords, food,nofood) #判断蛇是否吃到食物
+            
+        screen.fill(BG_COLOR)
+        #draw_grid(screen)
+        draw_snake(screen, snake_coords)
+        draw_food(screen, food)
+        draw_nofood(screen,nofood)
+        draw_score(screen, len(snake_coords) - 3)
+        pygame.display.update()
+        
+        snake_speed_clock.tick(speed)#控制fps
+        print(speed)
+#将食物画出来
+def draw_food(screen, food):
+    x = food['x'] * cell_size
+    y = food['y'] * cell_size
+    appleRect = pygame.Rect(x, y, cell_size, cell_size)
+    pygame.draw.rect(screen, Red, appleRect)
+#把毒物画出来
+def draw_nofood(screen,nofood):
+    x = nofood['x'] * cell_size
+    y = nofood['y'] * cell_size
+    appleRect = pygame.Rect(x, y, cell_size, cell_size)
+    pygame.draw.rect(screen, Red, appleRect)
+def snake_is_alive(snake_coords):
+        tag = True
+        if snake_coords[HEAD]['x'] == -1 or snake_coords[HEAD]['x'] == map_width or snake_coords[HEAD]['y'] == -1 or \
+            snake_coords[HEAD]['y'] == map_height:
+                tag = False # 蛇碰壁啦
+        for snake_body in snake_coords[1:]:
+                if snake_body['x'] == snake_coords[HEAD]['x'] and snake_body['y'] == snake_coords[HEAD]['y']:
+                        tag = False # 蛇碰到自己身体啦
+        return tag
+#判断贪吃蛇是否吃到食物或是毒物
+def snake_is_eat_food(snake_coords, food, nofood):  #如果是列表或字典，那么函数内修改参数内容，就会影响到函数体外的对象。
+    if snake_coords[HEAD]['x'] == food['x'] and snake_coords[HEAD]['y'] == food['y']:
+        food['x'] = random.randint(0, map_width - 1)
+        food['y'] = random.randint(0, map_height - 1) # 实物位置重新设置
+
+        nofood['x'] = random.randint(0, map_width - 1)
+        nofood['y'] = random.randint(0, map_height - 1)#毒物位置刷新
+    elif snake_coords[HEAD]['x'] == nofood['x'] and snake_coords[HEAD]['y'] == nofood['y']:
+        food['x'] = random.randint(0, map_width - 1)
+        food['y'] = random.randint(0, map_height - 1) # 实物位置重新设置
+        
+        nofood['x'] = random.randint(0, map_width - 1)
+        nofood['y'] = random.randint(0, map_height - 1)#毒物位置刷新
+        global poison
+        poison = not poison
+        print(poison)
+        del snake_coords[-1]
+    else:
+        del snake_coords[-1]  # 如果没有吃到实物, 就向前移动, 那么尾部一格删掉
+#食（毒物）物随机生成
+def get_random_location():
+    return {'x': random.randint(0, map_width - 1), 'y': random.randint(0, map_height - 1)}
+
+
