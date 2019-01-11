@@ -1,0 +1,13 @@
+#判断蛇死了没
+def snake_is_alive(snake_coords):
+        global snake_speed
+        tag = True
+        if snake_coords[HEAD]['x'] == -1 or snake_coords[HEAD]['x'] == map_width or snake_coords[HEAD]['y'] == -1 or \
+            snake_coords[HEAD]['y'] == map_height:
+                tag = False # 蛇碰壁啦
+        for snake_body in snake_coords[1:]:
+                if snake_body['x'] == snake_coords[HEAD]['x'] and snake_body['y'] == snake_coords[HEAD]['y']:
+                    tag = False # 蛇碰到自己身体啦
+                
+        return tag
+#利用对头坐标的限制及判断

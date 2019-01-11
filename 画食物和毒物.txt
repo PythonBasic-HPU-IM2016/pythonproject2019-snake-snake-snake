@@ -1,0 +1,14 @@
+#将食物画出来
+def draw_food(screen, food):
+    x = food['x'] * cell_size#在字典中获取数据随机坐标
+    y = food['y'] * cell_size
+    appleRect = pygame.Rect(x, y, cell_size, cell_size)
+    pygame.draw.rect(screen, Red, appleRect)
+    
+#把毒物画出来
+def draw_nofood(screen,nofood,snake_coords,food):
+    x = nofood['x'] * cell_size
+    y = nofood['y'] * cell_size
+    appleRect = pygame.Rect(x, y, cell_size, cell_size)
+    pygame.draw.rect(screen, Green, appleRect)
+   

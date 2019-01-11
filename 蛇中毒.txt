@@ -1,0 +1,33 @@
+蛇吃毒物前后控制蛇移动的键位改变
+while True:
+	#中毒后键位与中毒前相反
+        if poison:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                elif event.type == KEYDOWN:
+                    if (event.key == K_LEFT or event.key == K_a) and direction != LEFT:
+                        direction = RIGHT
+                    elif (event.key == K_RIGHT or event.key == K_d) and direction != RIGHT:
+                        direction = LEFT
+                    elif (event.key == K_UP or event.key == K_w) and direction != UP:
+                        direction = DOWN
+                    elif (event.key == K_DOWN or event.key == K_s) and direction != DOWN:
+                        direction = UP
+                    elif event.key == K_ESCAPE:
+                        terminate()
+        else:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    terminate()
+                elif event.type == KEYDOWN:
+                    if (event.key == K_LEFT or event.key == K_a) and direction != RIGHT:
+                        direction = LEFT
+                    elif (event.key == K_RIGHT or event.key == K_d) and direction != LEFT:
+                        direction = RIGHT
+                    elif (event.key == K_UP or event.key == K_w) and direction != DOWN:
+                        direction = UP
+                    elif (event.key == K_DOWN or event.key == K_s) and direction != UP:
+                        direction = DOWN
+                    elif event.key == K_ESCAPE:
+                        terminate()
