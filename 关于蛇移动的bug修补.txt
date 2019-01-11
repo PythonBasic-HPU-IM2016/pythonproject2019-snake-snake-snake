@@ -1,0 +1,19 @@
+初步的贪吃蛇控制方向的代码为：
+for event in pygame.event.get():
+	if event.type == QUIT:
+                    terminate()
+                elif event.type == KEYDOWN:
+                    if (event.key == K_LEFT or event.key == K_a) and direction != LEFT:
+                        direction = RIGHT
+                    elif (event.key == K_RIGHT or event.key == K_d) and direction != RIGHT:
+                        direction = LEFT
+                    elif (event.key == K_UP or event.key == K_w) and direction != UP:
+                        direction = DOWN
+                    elif (event.key == K_DOWN or event.key == K_s) and direction != DOWN:
+                        direction = UP
+                    elif event.key == K_ESCAPE:
+                        terminate()
+我们设定初始方向：direction = RIGHT
+这样同时按up(w) 和left(a)键会出现蛇咬到自己的bug
+这是由于这一段代码是放到一个while True里面，同时使用了get()方法获得指令。这样，在每一轮时，游戏可以同时接受多个按键指令，这样会导致上面后半部分的 “direction != 方向”代码失效。
+所以我们在后面改成了使用poll()方法获取指令，这样在while True的循环的每一轮里，最多只能同时获得一个指令，避免了自己回头咬自己的bug。
